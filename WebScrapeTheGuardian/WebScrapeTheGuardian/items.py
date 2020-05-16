@@ -10,5 +10,11 @@ import scrapy
 
 class WebscrapetheguardianItem(scrapy.Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+
+    title = scrapy.Field()
+    authors = scrapy.Field()
+    series_label = scrapy.Field()
+    section_label = scrapy.Field()
+    link = scrapy.Field()
+    article = scrapy.Field()
+
