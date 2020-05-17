@@ -18,25 +18,26 @@ class WebscrapetheguardianPipeline:
         self.collection = db['articles']
 
     def process_item(self, item, spider):
-        yasterday=date.today() - timedelta(days=1)
-        item['date_article'] = yasterday.strftime("%m/%d/%Y, %H:%M:%S")  # add date article
+        if(len(item['title'])>0):
+            yasterday=date.today() - timedelta(days=1)
+            item['date_article'] = yasterday.strftime("%m/%d/%Y, %H:%M:%S")  # add date article
 
-        item['article'] = self.article_cleanse(item['article'])  # clean and generate article
+            item['article'] = self.article_cleanse(item['article'])  # clean and generate article
 
-        item['title'] = self.clean_string(item['title'])  # cleaning Title
+            item['title'] = self.clean_string(item['title'][0])  # cleaning Title
+            if(len(item['series_label'])>0):
+                item['series_label'] = self.clean_string(item['series_label'][0])  # cleaning series lines
 
-        item['series_label'] = self.clean_string(item['series_label'][0])  # cleaning series lines
+            item['authors'] = self.authors_cleanse(
+                self.Eliminate_trailing_lines_in_arr(item['authors']))  # cleaning authors
 
-        item['authors'] = self.authors_cleanse(
-            self.Eliminate_trailing_lines_in_arr(item['authors']))  # cleaning authors
+            item['section_label'] = self.Eliminate_trailing_lines_in_arr(item['section_label'])  # cleaning section label
 
-        item['section_label'] = self.Eliminate_trailing_lines_in_arr(item['section_label'])  # cleaning section label
+            item['keywords'] = self.generate_key_words(item['title']) + self.generate_key_words(item['article'],
+                                                                                               15)  # generate keywords
 
-        item['keywords'] = self.generate_key_words(item['title']) + self.generate_key_words(item['article'],
-                                                                                            15)  # generate keywords
-
-        self.collection.insert(dict(item))
-        return item
+            self.collection.insert(dict(item))
+            return item
 
     def clean_string(self, text):
         text = text.rstrip().lstrip()
