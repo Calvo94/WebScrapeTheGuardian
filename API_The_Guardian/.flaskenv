@@ -1,0 +1,2 @@
+FLASK_APP=apitheguardian
+FLASK_ENV=development
