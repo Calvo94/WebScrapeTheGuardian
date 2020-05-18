@@ -33,8 +33,8 @@ class WebscrapetheguardianPipeline:
 
             item['section_label'] = self.Eliminate_trailing_lines_in_arr(item['section_label'])  # cleaning section label
 
-            item['keywords'] = self.generate_key_words(item['title']) + self.generate_key_words(item['article'],
-                                                                                               15)  # generate keywords
+          #  item['keywords'] = self.generate_key_words(item['title']) + self.generate_key_words(item['article'],
+          #                                                                                     15)  # generate keywords
 
             self.collection.insert(dict(item))
             return item
