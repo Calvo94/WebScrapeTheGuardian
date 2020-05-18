@@ -18,4 +18,4 @@ class WebscrapetheguardianItem(scrapy.Item):
     section_label = scrapy.Field()
     link = scrapy.Field()
     article = scrapy.Field()
-    keywords = scrapy.Field()
+

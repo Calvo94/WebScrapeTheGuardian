@@ -6,7 +6,6 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 import pymongo
 from datetime import date, timedelta
-from rake_nltk import Rake
 import re
 
 
@@ -52,8 +51,3 @@ class WebscrapetheguardianPipeline:
     def article_cleanse(self, article):
         return ''.join([self.clean_string(el) for el in article])
 
-    def generate_key_words(self, text, nb_keywords=5, max_length=2):
-        r = Rake(max_length=max_length)  # Uses stopwords for english from NLTK, and all puntuation characters.
-        r.extract_keywords_from_text(text)
-        keywords = r.get_ranked_phrases()
-        return keywords[:min(nb_keywords, len(keywords))]  # return at most nb_keywords words with max length 2
